@@ -1,17 +1,11 @@
 package com.example.lab5.task4
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.lab5.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.URL
 
 class Activity4 : AppCompatActivity() {
 
