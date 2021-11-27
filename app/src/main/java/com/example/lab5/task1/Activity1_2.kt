@@ -22,7 +22,7 @@ class Activity1_2: AppCompatActivity() {
 
     companion object {
         const val SECONDS_COUNT = "SECONDS_COUNT"
-        const val TAG = "Activity1_1"
+        const val TAG = "Activity1_2"
     }
 
     private var executorThread = Runnable {

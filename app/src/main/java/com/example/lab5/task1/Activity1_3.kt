@@ -21,7 +21,7 @@ class Activity1_3: AppCompatActivity() {
 
     companion object {
         const val SECONDS_COUNT = "SECONDS_COUNT"
-        const val TAG = "Activity1_1"
+        const val TAG = "Activity1_3"
     }
 
     override fun onPause() {
