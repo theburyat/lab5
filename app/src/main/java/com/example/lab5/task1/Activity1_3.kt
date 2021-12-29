@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.lab5.R
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -18,6 +19,7 @@ class Activity1_3: AppCompatActivity() {
     var endTime: Long = 0
     lateinit var textSecondsElapsed: TextView
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var job: Job
 
     companion object {
         const val SECONDS_COUNT = "SECONDS_COUNT"
@@ -26,7 +28,6 @@ class Activity1_3: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.i(TAG, "PAUSE")
         endTime = Date().time
         realElapsedSeconds += ((endTime - startTime) / 1000).toInt()
         with(sharedPreferences.edit()) {
@@ -37,11 +38,11 @@ class Activity1_3: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.i(TAG, "RESUME")
         startTime = Date().time
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i(TAG,"CREATE")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         textSecondsElapsed = findViewById(R.id.textSecondsElapsed)
@@ -52,13 +53,18 @@ class Activity1_3: AppCompatActivity() {
 
         textSecondsElapsed.setText(getString(R.string.seconds_elapsed, secondsElapsed))
 
-        lifecycleScope.launchWhenResumed {
+        job = lifecycleScope.launchWhenResumed {
+            Log.i(TAG, "START COROUTINE")
             while (true) {
                 delay(1000)
-                textSecondsElapsed.post {
-                    textSecondsElapsed.text = getString(R.string.seconds_elapsed, ++secondsElapsed)
-                }
+                textSecondsElapsed.text = getString(R.string.seconds_elapsed, ++secondsElapsed)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "DESTROY")
+        Log.i(TAG, "COROUTINE IS CANCELLED? ${job.isCancelled}")
     }
 }
